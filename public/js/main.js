@@ -21466,7 +21466,7 @@ var List = React.createClass({
 
   mixins: [Reflux.listenTo(ArtistStore, 'onChange')],
   getInitialState: function () {
-    return { artists: [], name: "", email: "", password: "", password_conf: "" };
+    return { artists: [], name: "" };
   },
   componentWillMount: function () {
     Actions.getArtists();
@@ -21474,17 +21474,16 @@ var List = React.createClass({
   onChange: function (event, artists) {
     this.setState({ artists: artists });
   },
-  onInputChange: function (e) {
-    this.setState({
-      name: e.target.value,
-      email: e.target.email
-    });
+  onInputChange: function (event) {
+    this.setState({ name: event.target.value });
   },
 
-  // password: e.target.password,
-  // password_conf: e.target.password_conf
   onClick: function (e) {
-    Actions.postArtist(this.state.name);
+    if (this.state.name) {
+      // spr czy nie jest puste pole
+      Actions.postArtist(this.state.name);
+    }
+    this.setState({ name: "" });
   },
   render: function () {
     var listItems = this.state.artists.map(function (item, key) {
@@ -21492,27 +21491,70 @@ var List = React.createClass({
       return React.createElement(ListItem, { key: key, id: item.id, name: item.name, email: item.email, pass: item.pass, pass_conf: item.pass_conf });
     });
 
-    return React.createElement(
-      'div',
-      null,
-      React.createElement('input', {
-        placeholder: 'Imie', value: this.state.name,
-        onChange: this.onInputChange }),
-      React.createElement('input', {
-        placeholder: 'email', value: this.state.email,
-        onChange: this.onInputChange }),
-      React.createElement('input', {
-        placeholder: 'password', value: this.state.password,
-        onChange: this.onInputChange }),
-      React.createElement('input', {
-        placeholder: 'password confirmation', value: this.state.password_conf,
-        onChange: this.onInputChange }),
+    return(
+      // <div className="form-group">
+      //   <input
+      //     name="name" className="form-control" placeholder="Imie" value={this.state.name}
+      //     onChange={this.onInputChange} />
+      //
+      //
+      //     <button type="submit" className="btn btn-default" onClick={this.onClick}>Add Artist</button>
+      //
+      //     {listItems}
+      //   </div>
+
       React.createElement(
-        'button',
-        { onClick: this.onClick },
-        'Add Artist'
-      ),
-      listItems
+        'div',
+        { className: 'container' },
+        React.createElement(
+          'div',
+          { className: 'row' },
+          React.createElement(
+            'div',
+            { className: 'col-sm-6' },
+            React.createElement(
+              'div',
+              { className: 'form-group' },
+              React.createElement(
+                'label',
+                { 'for': 'exampleInputName2' },
+                'Name'
+              ),
+              React.createElement('input', {
+                name: 'name', className: 'form-control', placeholder: 'Imie', value: this.state.name,
+                onChange: this.onInputChange })
+            ),
+            React.createElement(
+              'div',
+              { className: 'form-group' },
+              React.createElement(
+                'label',
+                { 'for': 'exampleInputEmail2' },
+                'Email'
+              ),
+              React.createElement('input', { type: 'email', className: 'form-control', placeholder: 'email' })
+            ),
+            React.createElement(
+              'div',
+              { className: 'form-group' },
+              React.createElement(
+                'label',
+                { 'for': 'exampleInputEmail2' },
+                'Password'
+              ),
+              React.createElement('input', { type: 'email', className: 'form-control', placeholder: 'email' })
+            ),
+            React.createElement(
+              'button',
+              { type: 'submit', className: 'btn btn-default', onClick: this.onClick },
+              'Add Artist'
+            ),
+            React.createElement('br', null),
+            React.createElement('br', null)
+          )
+        ),
+        listItems
+      )
     );
   }
 });
@@ -21523,39 +21565,54 @@ module.exports = List;
 var React = require('react');
 
 var ListItem = React.createClass({
-    displayName: 'ListItem',
+  displayName: "ListItem",
 
-    render: function () {
-        return React.createElement(
-            'li',
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "row" },
+      React.createElement(
+        "table",
+        { className: "table table-bordered" },
+        React.createElement(
+          "thead",
+          null,
+          React.createElement(
+            "tr",
             null,
             React.createElement(
-                'h4',
-                null,
-                this.props.id
+              "th",
+              null,
+              "Firstname"
             ),
             React.createElement(
-                'h4',
-                null,
-                this.props.name
-            ),
-            React.createElement(
-                'h3',
-                null,
-                this.props.email
-            ),
-            React.createElement(
-                'h2',
-                null,
-                this.props.pass
-            ),
-            React.createElement(
-                'h1',
-                null,
-                this.props.pass_conf
+              "th",
+              null,
+              "Email"
             )
-        );
-    }
+          )
+        ),
+        React.createElement(
+          "tbody",
+          null,
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "td",
+              null,
+              this.props.name
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.props.email
+            )
+          )
+        )
+      )
+    );
+  }
 });
 
 module.exports = ListItem;
@@ -21590,18 +21647,18 @@ var ArtistStore = Reflux.createStore({
       this.fireUpdate();
     }).bind(this));
   },
-  postArtist: function (name, email, password, password_conf) {
+  postArtist: function (name) {
 
     if (!this.artists) {
       this.artists = [];
     }
     var artist = {
       "id": Math.floor(Date.now() / 1000),
-      "name": name,
-      "email": email,
-      "password": password,
-      "password_conf": password_conf
+      "name": name
     };
+    // "email": email,
+    // "password": password,
+    // "password_conf": password_conf
     this.artists.push(artist);
     this.fireUpdate();
 

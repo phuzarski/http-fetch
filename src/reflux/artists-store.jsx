@@ -12,7 +12,7 @@ var ArtistStore = Reflux.createStore({
       this.fireUpdate();
     }.bind(this));
   },
-  postArtist: function(name, email, password, password_conf) {
+  postArtist: function(name) {
 
     if(!this.artists) {
       this.artists = [];
@@ -20,9 +20,9 @@ var ArtistStore = Reflux.createStore({
       var artist = {
         "id": Math.floor(Date.now() / 1000),
         "name": name,
-        "email": email,
-        "password": password,
-        "password_conf": password_conf
+        // "email": email,
+        // "password": password,
+        // "password_conf": password_conf
       };
       this.artists.push(artist);
       this.fireUpdate();

@@ -8,7 +8,7 @@ var ArtistStore = require('../reflux/artists-store.jsx');
 var List = React.createClass({
   mixins: [Reflux.listenTo(ArtistStore, 'onChange')],
   getInitialState: function() {
-    return {artists:[], name: "", email: "", password: "", password_conf: ""};
+    return {artists:[], name: ""};
   },
   componentWillMount: function() {
     Actions.getArtists();
@@ -16,17 +16,15 @@ var List = React.createClass({
   onChange: function(event, artists) {
     this.setState({artists: artists})
   },
-  onInputChange: function(e) {
-    this.setState({
-      name: e.target.value,
-      email: e.target.value,
-      // password: e.target.password,
-      // password_conf: e.target.password_conf
-    });
+  onInputChange: function(event) {
+    this.setState({name: event.target.value});
   },
 
   onClick: function(e) {
+    if (this.state.name) { // spr czy nie jest puste pole
       Actions.postArtist(this.state.name);
+    }
+    this.setState({name: ""})
   },
     render: function() {
         var listItems = this.state.artists.map(function(item, key) {
@@ -36,24 +34,41 @@ var List = React.createClass({
         });
 
         return (
-          <div>
-            <input
-              placeholder="Imie" value={this.state.name}
-              onChange={this.onInputChange} />
-            <input
-              placeholder="email" value={this.state.email}
-              onChange={this.onInputChange} />
-            <input
-              placeholder="password" value={this.state.password}
-              onChange={this.onInputChange} />
-            <input
-              placeholder="password confirmation" value={this.state.password_conf}
-              onChange={this.onInputChange} />
+          // <div className="form-group">
+          //   <input
+          //     name="name" className="form-control" placeholder="Imie" value={this.state.name}
+          //     onChange={this.onInputChange} />
+          //
+          //
+          //     <button type="submit" className="btn btn-default" onClick={this.onClick}>Add Artist</button>
+          //
+          //     {listItems}
+          //   </div>
 
-              <button onClick={this.onClick}>Add Artist</button>
+    <div className="container">
+      <div className="row">
+    <div className="col-sm-6">
+      <div className="form-group">
+        <label for="exampleInputName2">Name</label>
+        <input
+            name="name" className="form-control" placeholder="Imie" value={this.state.name}
+            onChange={this.onInputChange} />
+      </div>
+      <div className="form-group">
+        <label for="exampleInputEmail2">Email</label>
+        <input type="email" className="form-control" placeholder="email" />
 
-              {listItems}
-            </div>
+    </div>
+    <div className="form-group">
+      <label for="exampleInputEmail2">Password</label>
+      <input type="email" className="form-control"  placeholder="email" />
+
+  </div>
+      <button type="submit" className="btn btn-default" onClick={this.onClick}>Add Artist</button><br/><br/>
+</div>
+</div>
+  {listItems}
+</div>
       );
     }
 });

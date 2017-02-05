@@ -4,13 +4,24 @@ var React = require('react');
 var ListItem = React.createClass({
     render: function() {
         return (
-            <li>
-                <h4>{this.props.id}</h4>
-                <h4>{this.props.name}</h4>
-                <h3>{this.props.email}</h3>
-                <h2>{this.props.pass}</h2>
-                <h1>{this.props.pass_conf}</h1>
-            </li>
+
+              <div className="row">
+              <table className="table table-bordered">
+                <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{this.props.name}</td>
+          <td>{this.props.email}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
         );
     }
 });
