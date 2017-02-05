@@ -11,8 +11,20 @@ var service = {
       return response.json();
     });
   },
-  //put
-  //patch
-}
+  //post
+  post: function(url, artist) {
+    return fetch(baseUrl + url, {
+      headers: {
+        'Accept': 'text/plain',
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify(artist)
+    }).then(function(response) {
+      return response;
+    });
+    }
+  };
+
 
 module.exports = service;
