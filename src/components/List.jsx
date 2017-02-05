@@ -19,7 +19,7 @@ var List = React.createClass({
   onInputChange: function(e) {
     this.setState({
       name: e.target.value,
-      email: e.target.email,
+      email: e.target.value,
       // password: e.target.password,
       // password_conf: e.target.password_conf
     });
