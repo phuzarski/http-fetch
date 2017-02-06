@@ -14,7 +14,6 @@ var ListItem = React.createClass({
                   <th width="150px">Email</th>
                   <th width="150px">Password</th>
                   <th width="150px">Edit: </th>
-                  <th width="150px">Delete: </th>
                 </tr>
               </thead>
               <tbody>
@@ -23,7 +22,6 @@ var ListItem = React.createClass({
                   <td>{this.props.email}</td>
                   <td>{this.props.pass}</td>
                   <td><span className="glyphicon glyphicon-pencil"></span></td>
-                  <td><span className="glyphicon glyphicon-remove-circle"></span></td>
                 </tr>
               </tbody>
             </table>

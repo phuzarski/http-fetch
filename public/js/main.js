@@ -21593,11 +21593,6 @@ var ListItem = React.createClass({
               "th",
               { width: "150px" },
               "Edit: "
-            ),
-            React.createElement(
-              "th",
-              { width: "150px" },
-              "Delete: "
             )
           )
         ),
@@ -21626,11 +21621,6 @@ var ListItem = React.createClass({
               "td",
               null,
               React.createElement("span", { className: "glyphicon glyphicon-pencil" })
-            ),
-            React.createElement(
-              "td",
-              null,
-              React.createElement("span", { className: "glyphicon glyphicon-remove-circle" })
             )
           )
         )
