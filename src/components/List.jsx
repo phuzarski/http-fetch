@@ -16,14 +16,16 @@ var List = React.createClass({
   onChange: function(event, artists) {
     this.setState({artists: artists})
   },
-  onInputChange: function(event) {
-    this.setState({name: event.target.value});
+  onInputChange: function(name, e) {
+    var change = {};
+    change[name] = e.target.value;
+    this.setState(change)
   },
 
-  onClick: function(e) {
-    if (this.state.name) { // spr czy nie jest puste pole
-      Actions.postArtist(this.state.name);
-    }
+  onClick: function() {
+    if (this.state.name !== "" || this.state.email !== "" || this.state.pass !=="") { // spr czy nie jest puste pole
+      Actions.postArtist(this.state);
+      }
     this.setState({name: ""})
   },
     render: function() {
@@ -34,16 +36,7 @@ var List = React.createClass({
         });
 
         return (
-          // <div className="form-group">
-          //   <input
-          //     name="name" className="form-control" placeholder="Imie" value={this.state.name}
-          //     onChange={this.onInputChange} />
-          //
-          //
-          //     <button type="submit" className="btn btn-default" onClick={this.onClick}>Add Artist</button>
-          //
-          //     {listItems}
-          //   </div>
+
 
     <div className="container">
       <div className="row">
@@ -51,23 +44,27 @@ var List = React.createClass({
       <div className="form-group">
         <label for="exampleInputName2">Name</label>
         <input
-            name="name" className="form-control" placeholder="Imie" value={this.state.name}
-            onChange={this.onInputChange} />
+            name="name" className="form-control" placeholder="name" value={this.state.name}
+            onChange={this.onInputChange.bind(this, 'name')} />
       </div>
       <div className="form-group">
         <label for="exampleInputEmail2">Email</label>
-        <input type="email" className="form-control" placeholder="email" />
+        <input
+            type="email" className="form-control" placeholder="email" value2={this.state.email}
+            onChange={this.onInputChange.bind(this, 'email')}  />
 
     </div>
     <div className="form-group">
       <label for="exampleInputEmail2">Password</label>
-      <input type="email" className="form-control"  placeholder="email" />
+      <input
+          type="password" className="form-control"  placeholder="password" value3={this.state.pass}
+          onChange={this.onInputChange.bind(this, 'pass')}  />
 
   </div>
       <button type="submit" className="btn btn-default" onClick={this.onClick}>Add Artist</button><br/><br/>
 </div>
 </div>
-  {listItems}
+{listItems}
 </div>
       );
     }
